@@ -3,27 +3,35 @@ package routes
 import (
 	"net/http"
 
+	"prizepicks/jurassicpark/handlers"
+
 	"github.com/gin-gonic/gin"
 )
 
 func addCageRoutes(rg *gin.RouterGroup) {
-	dino := rg.Group("/cage")
+	cage := rg.Group("/cage")
 
-	dino.POST("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, "add cage")
+	cage.POST("/", func(c *gin.Context) {
+		cage, err := handlers.AddCage(c)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, cage)
 	})
-	dino.GET("/:id", func(c *gin.Context) {
+	cage.GET("/:id", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "cage by id")
 	})
-	dino.PUT("/:id", func(c *gin.Context) {
+	cage.PUT("/:id", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "update cage")
 	})
 }
 
 func addCagesRoutes(rg *gin.RouterGroup) {
-	dinos := rg.Group("/cages")
+	cages := rg.Group("/cages")
 
-	dinos.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, "all cages")
+	cages.GET("/", func(c *gin.Context) {
+		cages := handlers.GetCages()
+		c.JSON(http.StatusOK, cages)
 	})
 }
