@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	models.ConnectDatabase()
+	models.ConnectDatabase("demo.db")
 	routes.Run()
 }

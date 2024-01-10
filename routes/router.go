@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os/signal"
+	"prizepicks/jurassicpark/models"
 	"syscall"
 	"time"
 
@@ -50,4 +51,10 @@ func getRoutes() {
 	addDinosaursRoutes(defaultRG)
 	addCageRoutes(defaultRG)
 	addCagesRoutes(defaultRG)
+}
+
+func SetupTestRouter() *gin.Engine {
+	models.ConnectDatabase("../demo.db")
+	getRoutes()
+	return router
 }
