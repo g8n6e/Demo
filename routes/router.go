@@ -51,6 +51,8 @@ func getRoutes() {
 	addDinosaursRoutes(defaultRG)
 	addCageRoutes(defaultRG)
 	addCagesRoutes(defaultRG)
+	addSpecieRoutes(defaultRG)
+	addSpeciesRoutes(defaultRG)
 }
 
 func SetupTestRouter() *gin.Engine {

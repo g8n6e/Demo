@@ -2,28 +2,49 @@ package routes
 
 import (
 	"net/http"
+	"prizepicks/jurassicpark/handlers"
 
 	"github.com/gin-gonic/gin"
 )
 
 func addDinosaurRoutes(rg *gin.RouterGroup) {
-	dino := rg.Group("/dinosaur")
+	dinosaur := rg.Group("/dinosaur")
 
-	dino.POST("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, "add dinosaur")
+	dinosaur.POST("/", func(c *gin.Context) {
+		dinosaur, err := handlers.AddDinosaur(c)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, dinosaur)
 	})
-	dino.GET("/:id", func(c *gin.Context) {
-		c.JSON(http.StatusOK, "dino by id")
+	dinosaur.GET("/:id", func(c *gin.Context) {
+		dinosaur, err := handlers.GetDinosaurById(c)
+		if err != nil {
+			if err.Error() == "record not found" {
+				c.JSON(http.StatusNotFound, err.Error())
+				return
+			}
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, dinosaur)
 	})
-	dino.PUT("/:id", func(c *gin.Context) {
-		c.JSON(http.StatusOK, "update dino")
+	dinosaur.PATCH("/:id", func(c *gin.Context) {
+		dinosaur, err := handlers.UpdateDinosaur(c)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, dinosaur)
 	})
 }
 
 func addDinosaursRoutes(rg *gin.RouterGroup) {
-	dinos := rg.Group("/dinosaurs")
+	dinosaurs := rg.Group("/dinosaurs")
 
-	dinos.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, "all dinosaurs")
+	dinosaurs.GET("/", func(c *gin.Context) {
+		dinosaurs := handlers.GetDinosaurs()
+		c.JSON(http.StatusOK, dinosaurs)
 	})
 }
