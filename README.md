@@ -15,6 +15,9 @@ By default in debug it should listen on http://127.0.0.1:8080/ which you can use
 ## GET /dinosaurs
 ### Get All Dinosaurs
 
+## GET /dinosaurs/cage/:id
+### Get All Dinosaurs in a specific cage by cage id
+
 ## POST /dinosaur 
 ### Add a Dinosaur
 example request body:

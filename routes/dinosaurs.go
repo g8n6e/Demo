@@ -51,4 +51,13 @@ func addDinosaursRoutes(rg *gin.RouterGroup) {
 		}
 		c.JSON(http.StatusOK, dinosaurs)
 	})
+
+	dinosaurs.GET("/cage/:id", func(c *gin.Context) {
+		dinosaurs, err := handlers.GetDinosaursByCageId(c)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, dinosaurs)
+	})
 }
