@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"prizepicks/jurassicpark/models"
 	"strconv"
 
@@ -9,7 +10,7 @@ import (
 
 type cageRequest struct {
 	Capacity int  `json:"capacity"`
-	Active   bool `json:"active"`
+	Active   bool `json:"active" gorm:"type:boolean"`
 }
 
 func GetCages() []models.Cage {
@@ -55,6 +56,20 @@ func UpdateCage(c *gin.Context) (cage models.Cage, err error) {
 	var input cageRequest
 	if err := c.ShouldBindJSON(&input); err != nil {
 		return cage, err
+	}
+	//need refactored but this was a dirty fix to get around gorm ignoring zero values
+	if !input.Active {
+		dinosaurs, err := getDinosaursByCageId(cage.ID)
+		if len(dinosaurs) > 0 {
+			return models.Cage{}, errors.New("this cage is occupied and cannot be deactivated")
+		}
+		if err != nil {
+			return models.Cage{}, errors.New("error validating cage occupancy")
+		}
+		err = models.DB.Model(&cage).Updates(map[string]interface{}{"id": cage.ID, "capacity": cage.Capacity, "active": false}).Error
+		if err != nil {
+			return cage, err
+		}
 	}
 	err = models.DB.Model(&cage).Updates(input).Error
 	return cage, err

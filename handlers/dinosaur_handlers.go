@@ -51,15 +51,25 @@ func AddDinosaur(c *gin.Context) (dinosaur models.Dinosaur, err error) {
 		}
 		input.CageID = cage.ID
 	} else {
-		specie, err := getSpecieById(input.SpecieID)
+		cage, err := getCageById(input.CageID)
 		if err != nil {
 			return models.Dinosaur{}, err
+		}
+		if !cage.Active {
+			return models.Dinosaur{}, errors.New("this cage is down please find another cage")
 		}
 		dinosaurs, err := getDinosaursByCageId(input.CageID)
 		if err != nil {
 			return models.Dinosaur{}, err
 		}
+		if cage.Capacity <= len(dinosaurs) {
+			return models.Dinosaur{}, errors.New("this cage cannot hold another dinosaur please find another cage")
+		}
 		if len(dinosaurs) != 0 {
+			specie, err := getSpecieById(input.SpecieID)
+			if err != nil {
+				return models.Dinosaur{}, err
+			}
 			cageSpecie, err := getSpecieById(dinosaurs[0].SpecieID)
 			if err != nil {
 				return models.Dinosaur{}, err
@@ -90,15 +100,25 @@ func UpdateDinosaur(c *gin.Context) (dinosaur models.Dinosaur, err error) {
 	if err := c.ShouldBindJSON(&input); err != nil {
 		return dinosaur, err
 	}
-	specie, err := getSpecieById(dinosaur.SpecieID)
+	cage, err := getCageById(dinosaur.CageID)
 	if err != nil {
 		return models.Dinosaur{}, err
+	}
+	if !cage.Active {
+		return models.Dinosaur{}, errors.New("this cage is down please find another cage")
 	}
 	dinosaurs, err := getDinosaursByCageId(dinosaur.CageID)
 	if err != nil {
 		return models.Dinosaur{}, err
 	}
-	if dinosaurs != nil {
+	if cage.Capacity <= len(dinosaurs) {
+		return models.Dinosaur{}, errors.New("this cage cannot hold another dinosaur please find another cage")
+	}
+	if len(dinosaurs) != 0 {
+		specie, err := getSpecieById(dinosaur.SpecieID)
+		if err != nil {
+			return models.Dinosaur{}, err
+		}
 		cageSpecie, err := getSpecieById(dinosaurs[0].SpecieID)
 		if err != nil {
 			return models.Dinosaur{}, err
