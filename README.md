@@ -114,7 +114,6 @@ Diet is an Enumeration:
 > Carnivore = 1  
 
 ## Goals
-- Refactor for singular species
 - All requests should respond with the correct HTTP status codes and a response, if necessary, 
 representing either the success or error conditions.
 - Data should be persisted using some flavor of SQL.
@@ -129,6 +128,8 @@ representing either the success or error conditions.
 ## Future Objectives
 
 ### If I had more time
+
+- Refactor for singular species
 
 - Add filtering to get all commands
 
