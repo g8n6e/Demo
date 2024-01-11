@@ -59,7 +59,7 @@ func AddDinosaur(c *gin.Context) (dinosaur models.Dinosaur, err error) {
 		if err != nil {
 			return models.Dinosaur{}, err
 		}
-		if dinosaurs != nil {
+		if dinosaurs != nil && len(dinosaurs) != 0 {
 			cageSpecie, err := getSpecieById(dinosaurs[0].SpecieID)
 			if err != nil {
 				return models.Dinosaur{}, err
@@ -90,11 +90,11 @@ func UpdateDinosaur(c *gin.Context) (dinosaur models.Dinosaur, err error) {
 	if err := c.ShouldBindJSON(&input); err != nil {
 		return dinosaur, err
 	}
-	specie, err := getSpecieById(input.SpecieID)
+	specie, err := getSpecieById(dinosaur.SpecieID)
 	if err != nil {
 		return models.Dinosaur{}, err
 	}
-	dinosaurs, err := getDinosaursByCageId(input.CageID)
+	dinosaurs, err := getDinosaursByCageId(dinosaur.CageID)
 	if err != nil {
 		return models.Dinosaur{}, err
 	}
