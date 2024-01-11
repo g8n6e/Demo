@@ -59,7 +59,7 @@ func AddDinosaur(c *gin.Context) (dinosaur models.Dinosaur, err error) {
 		if err != nil {
 			return models.Dinosaur{}, err
 		}
-		if dinosaurs != nil && len(dinosaurs) != 0 {
+		if len(dinosaurs) != 0 {
 			cageSpecie, err := getSpecieById(dinosaurs[0].SpecieID)
 			if err != nil {
 				return models.Dinosaur{}, err
