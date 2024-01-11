@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"prizepicks/jurassicpark/models"
 	"strconv"
 
@@ -12,16 +13,19 @@ type specieRequest struct {
 	Diet models.Diet `json:"diet"`
 }
 
-func GetSpecies() []models.Specie {
+func GetSpecies() ([]models.Specie, error) {
 	var species []models.Specie
-	models.DB.Find(&species)
-	return species
+	err := models.DB.Find(&species).Error
+	return species, err
 }
 
 func AddSpecie(c *gin.Context) (specie models.Specie, err error) {
 	var input specieRequest
 	if err := c.ShouldBindJSON(&input); err != nil {
 		return specie, err
+	}
+	if input.Name == "" {
+		return models.Specie{}, errors.New("specie name must be provided")
 	}
 	newSpecie := models.Specie{Name: input.Name, Diet: input.Diet}
 	err = models.DB.Create(&newSpecie).Error

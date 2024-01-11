@@ -44,7 +44,11 @@ func addSpeciesRoutes(rg *gin.RouterGroup) {
 	species := rg.Group("/species")
 
 	species.GET("/", func(c *gin.Context) {
-		species := handlers.GetSpecies()
+		species, err := handlers.GetSpecies()
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
 		c.JSON(http.StatusOK, species)
 	})
 }
