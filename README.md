@@ -129,19 +129,21 @@ representing either the success or error conditions.
 
 ### If I had more time
 
+- Add filtering to get all commands
+
 - Figure out how to get GORM to honor foreign keys correctly to be able to preload associations on objects and streamline validation of associated traits
 
-- Clean up test cases and scaffold out some utilities to reduce duplication of code throughout testing
+- Clean up test cases and scaffold out some utilities to reduce duplication of code throughout testing as well as adding more test coverage
 
- - Implement OpenAPI/Swagger for better docs than the API details in this readme and to provide a web request utility at least for demo
+- Implement OpenAPI/Swagger for better docs than the API details in this readme and to provide a web request utility at least for demo
 
-  - Add auth and basic security practices
+- Add auth and basic security practices
 
-  - Add logging and telemetry
+- Add logging and telemetry
 
-  - Productionalize with secrets management, environment based configuration, etc.
+- Productionalize with secrets management, environment based configuration, etc.
 
-   - much much more 
+- much much more 
 
 ### Options for Scaling
 
