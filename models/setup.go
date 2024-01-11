@@ -15,7 +15,7 @@ func ConnectDatabase(dbLocation string) {
 		panic("Failed to connect to database!")
 	}
 
-	err = database.AutoMigrate(&Cage{}, &Dinosaur{}, &Specie{})
+	err = database.AutoMigrate(&Specie{}, &Cage{}, &Dinosaur{})
 	if err != nil {
 		return
 	}

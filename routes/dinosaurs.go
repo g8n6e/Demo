@@ -44,7 +44,11 @@ func addDinosaursRoutes(rg *gin.RouterGroup) {
 	dinosaurs := rg.Group("/dinosaurs")
 
 	dinosaurs.GET("/", func(c *gin.Context) {
-		dinosaurs := handlers.GetDinosaurs()
+		dinosaurs, err := handlers.GetDinosaurs()
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
 		c.JSON(http.StatusOK, dinosaurs)
 	})
 }

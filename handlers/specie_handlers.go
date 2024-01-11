@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"prizepicks/jurassicpark/models"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,8 +29,17 @@ func AddSpecie(c *gin.Context) (specie models.Specie, err error) {
 }
 
 func GetSpecieById(c *gin.Context) (models.Specie, error) {
+	specieId, conversionErr := strconv.Atoi(c.Param("id"))
+	if conversionErr != nil {
+		return models.Specie{}, conversionErr
+	}
+	specie, err := getSpecieById(specieId)
+	return specie, err
+}
+
+func getSpecieById(specieId int) (models.Specie, error) {
 	var specie models.Specie
-	err := models.DB.Where("id = ?", c.Param("id")).First(&specie).Error
+	err := models.DB.Where("id = ?", specieId).First(&specie).Error
 	return specie, err
 }
 

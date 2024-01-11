@@ -1,12 +1,10 @@
 package models
 
 type Dinosaur struct {
-	ID        int    `json:"id" gorm:"primaryKey"`
-	Name      string `json:"name"`
-	SpeciesID int    `json:"speciesId"`
-	Species   Specie `json:"species"`
-	CageID    int    `json:"cageId"`
-	Cage      Cage   `json:"cage"`
+	ID       int    `json:"id" gorm:"primaryKey"`
+	Name     string `json:"name"`
+	SpecieID int    `json:"specieId"`
+	CageID   int    `json:"cageId"`
 }
 
 type Specie struct {
