@@ -130,6 +130,16 @@ representing either the success or error conditions.
 
 - Clean up test cases and scaffold out some utilities to reduce duplication of code throughout testing
 
+ - Implement OpenAPI/Swagger for better docs than the API details in this readme and to provide a web request utility at least for demo
+
+  - Add auth and basic security practices
+
+  - Add logging and telemetry
+
+  - Productionalize with secrets management, environment based configuration, etc.
+
+   - much much more 
+
 ### Options for Scaling
 
  - create an api gateway to load balance requests across multiple service instances
